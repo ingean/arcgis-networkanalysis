@@ -1,0 +1,102 @@
+:root {
+  --flow-color: #404040;
+  --flow-color-subtle: #757575;
+  --flow-color-bg: white;
+  --flow-list-bg: #f3f3f3;
+  --flow-list-item-bg: white;
+  --flow-list-item: #151515;
+  --flow-color-fg-hover: #f3f3f3;
+  --flow-color-bg-hover: #2b2b2b;
+  --flow-color-active: #59d6ff;
+  --flow-color-bg-active: #151515;
+}
+
+/* Hide panels at startup */
+#panel-stops,
+#panel-routes,
+#panel-directions,
+#panel-closestFacility,
+#panel-settings {
+  display: none;
+}
+
+.flow-panel {
+  display: flex;
+  flex: 0 0 17em; /* Fixed width */
+  flex-direction: column;
+  background-color: var(--flow-color-bg);
+  height: 100%
+}
+
+.flow-panel-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+}
+
+.flow-panel-close:hover {
+  color: var(--flow-color-active);
+}
+
+.heading {
+  color: var(--flow-color);
+  font-size: large;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.subheading {
+  color: var(--flow-color-subtle);
+  font-size: medium;
+  font-weight: bold;
+  margin: 15px;
+}
+
+.flow-panel-list {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 150px);
+  width: 100%;
+  overflow-y: scroll;
+  padding-top: 15px;
+  background-color: var(--flow-list-bg);
+}
+
+.panel-list-item {
+  display: flex;
+  flex-direction: row;
+  color: var(--flow-list-item);
+  background-color: var(--flow-list-item-bg);
+  padding: 12px 7px 12px 20px;
+  margin: 2px 5px;  
+  font-size: small;
+}
+
+.panel-setting {
+  margin-left: 10px;
+  margin-right: 10px;
+  color: var(--flow-color-subtle);
+}
+
+.panel-input {
+  margin: 5px 10px;
+  width: 100px;
+}
+
+.panel-btn {
+ margin: 5px 10px;
+ width: 150px;
+}
+
+.left {
+  margin-left: auto;
+}
+
+.img-direction {
+  min-width: 24px;
+  margin-right: 5px;
+}
+
+
+

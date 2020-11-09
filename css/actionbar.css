@@ -1,0 +1,63 @@
+:root {
+  --action-color-fg: #dfdfdf;
+  --action-color-bg: #404040;
+  --action-color-fg-hover: #f3f3f3;
+  --action-color-bg-hover: #2b2b2b;
+  --action-color-fg-active: #59d6ff;
+  --action-color-bg-active: #151515;
+}
+
+#action-bar {
+  display: flex;
+  flex: 0 0 150px; /* Fixed width */
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--action-color-bg);
+}
+
+.action-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-bottom: 1px solid;
+}
+
+.bottom {
+  margin-top: auto;
+  border-top: 1px solid;
+}
+
+.action {
+  display: flex;
+}
+
+.action:hover {
+  color: var(--action-color-fg-hover);
+  background-color: var(--action-color-bg-hover);
+}
+
+.action-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  border: none !important;
+  color: var(--action-color-fg);
+  background-color: transparent;
+  height: 50px;
+  width: 100%;
+}
+
+.active {
+  border: none !important;
+  color: var(--action-color-fg-active);
+  background-color: var(--action-color-bg-active);
+}
+
+.action-btn:focus {
+  outline: 0;
+}
+
+.action-item {
+  margin-left: 15px;
+}

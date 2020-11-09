@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Beredskap | Kjøretidsberegninger og beredskapsdekning</title>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.16/esri/themes/light/main.css"
+    >
+    <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.5/css/calcite-web.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/actionbar.css" />
+    <link rel="stylesheet" type="text/css" href="css/flowpanel.css" />
+
+    <script src="https://js.arcgis.com/4.16/"></script>
+  </head>
+  <body>
+    
+    <!-- Navigation bar -->
+    <header class="top-nav fade-in">
+      <div class="grid-container">
+        <div class="column-24">
+          <div class="tablet-hide">
+            <a class="skip-to-content" href="#skip-to-content">Skip To Content</a>
+            <a href="#" class="top-nav-title">Kjøretidsanalyser</a>
+            <nav class="top-nav-list" role="navigation" aria-labelledby="topnav">
+              <a id="a-route" 
+                 class="top-nav-link" 
+                 href="https://geodata.maps.arcgis.com/apps/opsdashboard/index.html#/fa88d3e91db9451c850c6ac6a64bcf32" 
+                 title="Ressursoptimalisering">Ressursoptimalisering</a>
+            </nav>
+          </div>
+          <div class="tablet-show top-nav-flex">
+            <nav class="top-nav-flex-list" role="navigation" aria-labelledby="topnav">
+              <a href="/" class="icon-ui-menu top-nav-link js-drawer-toggle" data-drawer="left"><span class="phone-hide">Meny</span></a>
+            </nav>
+            <header class="top-nav-flex-title">
+              <a href="/" class="top-nav-link">Kjøretid <span class="phone-hide">sanalyser</span></a>
+            </header>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Left side action bar -->
+      <div id="action-bar">
+        <div class="action-group">
+          <div class="action">
+            <button id="btn-show-stops" class="action-btn flow-panel-open">
+              <div class="icon-ui-map-pin action-item"></div>
+              <div class="action-text collapsable" >Stoppesteder</div>
+            </button>
+          </div>
+          <div class="action">
+            <button id="btn-show-routes" class="action-btn flow-panel-open">
+              <div class="icon-ui-navigation action-item"></div>
+              <div class="action-text collapsable" >Kjøreruter</div>
+            </button>
+          </div>
+          <div class="action">
+            <button id="btn-show-directions" class="action-btn flow-panel-open">
+              <div class="icon-ui-directions action-item"></div>
+              <div class="action-text collapsable" >Beskrivelse</div>
+            </button>
+          </div>
+          <div class="action">
+            <button id="btn-show-closestFacility" class="action-btn flow-panel-open">
+              <div class="icon-ui-locate action-item"></div>
+              <div class="action-text collapsable" >Finn nærmeste</div>
+            </button>
+          </div>
+        </div>
+        <div class="action-group">
+          <div class="action">
+            <button id="btn-show-settings" class="action-btn flow-panel-open">
+              <div class="icon-ui-settings action-item"></div>
+              <div class="action-text collapsable" >Innstillinger</div>
+            </button>
+          </div>
+          <div class="action">
+            <button id="btn-deleteStops" class="action-btn">
+              <div class="icon-ui-trash action-item"></div>
+              <div class="action-text collapsable" >Slett</div>
+            </button>
+          </div>  
+        </div>
+        <div class="action-group bottom">
+          <div class="action">
+            <button id="btn-collapse" class="action-btn">
+              <div id="icon-collapse" class="icon-ui-expand action-item"></div>
+              <div class="action-text collapsable" >Minimere</div>
+            </button>
+          </div> 
+        </div>
+      </div>
+      
+      <!-- Left side panels-->
+      <div id="panel-stops" class="flow-panel">
+        <div class="flow-panel-header">
+          <div class="heading">Stoppesteder</div>
+          <div id="panel-close-stops" class="flow-panel-close icon-ui-close left"></div>
+        </div>
+        <div id="list-stops" class="flow-panel-list">
+        </div>
+      </div>
+      <div id="panel-routes" class="flow-panel">
+        <div class="flow-panel-header">
+          <div class="heading">Kjøreruter</div>
+          <div id="panel-close-routes" class="flow-panel-close icon-ui-close left"></div>
+        </div>
+        <div id="list-routes" class="flow-panel-list">
+        </div>
+      </div>
+      <div id="panel-directions" class="flow-panel">
+        <div class="flow-panel-header">
+          <div class="heading">Beskrivelse</div>
+          <div id="panel-close-directions" class="flow-panel-close icon-ui-close left"></div>
+        </div>
+        <div id="list-directions" class="flow-panel-list">
+        </div>
+      </div>
+      <div id="panel-closestFacility" class="flow-panel">
+        <div class="flow-panel-header">
+          <div class="heading">Finn nærmeste</div>
+          <div id="panel-close-closestFacility" class="flow-panel-close icon-ui-close left"></div>
+        </div>
+        <div id="list-closestFacility" class="flow-panel-list">
+          <label class="subheading">
+            Antall ressurser:
+            <input id="input-facilityCount" class="input-number panel-input" type="number" min="1" max="10" value="3">
+            <button id="btn-closestFacility" class="btn panel-btn">Finn nærmeste</button>
+          </label>
+        </div>
+        <div id="load-closestFacility" class="loader padding-leader-3 padding-trailer-3">
+          <div class="loader-bars"></div>
+          <div class="loader-text">Beregner...</div>
+        </div>
+      </div>
+      <div id="panel-settings" class="flow-panel">
+        <div class="flow-panel-header">
+          <div class="heading">Innstillinger</div>
+          <div id="panel-close-settings" class="flow-panel-close icon-ui-close left"></div>
+        </div>
+        <div id="list-settings" class="flow-panel-list">
+          <fieldset class="radio-group panel-setting">
+            <legend class="radio-group-title subheading">Velg analyse</legend>
+            <input class="radio-group-input" type="radio" id="r-route" name="NAType" checked/>
+            <label class="radio-group-label" for="r-route">Rute</label>
+            <input class="radio-group-input" type="radio" id="r-area" name="NAType"/>
+            <label class="radio-group-label" for="r-area">Område</label>
+          </fieldset>
+          <label class="toggle-switch modifier-class panel-setting">
+            <input id="check-barriers" type="checkbox" class="toggle-switch-input">
+            <span class="toggle-switch-track margin-right-1"></span>
+            <span class="toggle-switch-label font-size--1">Ta hensyn til restriksjoner</span>
+          </label>
+          <label class="toggle-switch modifier-class panel-setting">
+            <input id="check-time" type="checkbox" class="toggle-switch-input">
+            <span class="toggle-switch-track margin-right-1"></span>
+            <span class="toggle-switch-label font-size--1">Bruk tid</span>
+          </label>
+          <label class="toggle-switch modifier-class panel-setting">
+            <input id="check-directions" type="checkbox" class="toggle-switch-input">
+            <span class="toggle-switch-track margin-right-1"></span>
+            <span class="toggle-switch-label font-size--1">Hent kjørebeskrivelse</span>
+          </label>
+          <label class="subheading">
+            Tid på døgnet
+            <input id="startTime" class="panel-setting" type="time" placeholder="HH:mm:ss">
+          </label>
+        </div>
+      </div>
+     
+      <!-- Map -->
+      <div class="wrapper">
+        <div id="viewDiv" class="esri-view"></div>
+      </div>
+    </main>
+    
+    <!-- Scripts-->
+    <script type="text/javascript" src="js/config/directions.js"></script>
+    <script type="text/javascript" src="js/config/symbols.js"></script>
+    <script type="text/javascript" src="js/ui.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
